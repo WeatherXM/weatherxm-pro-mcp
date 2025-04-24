@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "WeatherXM PRO API",
+    "version": "1.0.0",
+    "description": "OpenAPI specification for WeatherXM PRO APIs"
+  },
+  "servers": [
+    {
+      "url": "https://api.weatherxmpro.com"
+    }
+  ],
+  "paths": {
+    "/current": {
+      "get": {
+        "summary": "Get current weather data",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Location to get current weather for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current weather data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentWeatherResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forecast": {
+      "get": {
+        "summary": "Get weather forecast data",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Location to get forecast for"
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            },
+            "description": "Number of days to forecast"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weather forecast data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CurrentWeatherResponse": {
+        "type": "object",
+        "properties": {
+          "temperature": {
+            "type": "number",
+            "description": "Current temperature in Celsius"
+          },
+          "humidity": {
+            "type": "number",
+            "description": "Current humidity percentage"
+          },
+          "condition": {
+            "type": "string",
+            "description": "Weather condition description"
+          }
+        },
+        "required": ["temperature", "humidity", "condition"]
+      },
+      "ForecastResponse": {
+        "type": "object",
+        "properties": {
+          "forecast": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "temperature": {
+                  "type": "number"
+                },
+                "condition": {
+                  "type": "string"
+                }
+              },
+              "required": ["date", "temperature", "condition"]
+            }
+          }
+        },
+        "required": ["forecast"]
+      }
+    }
+  }
+}

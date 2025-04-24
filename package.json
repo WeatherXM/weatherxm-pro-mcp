@@ -1,0 +1,29 @@
+{
+  "name": "weatherxm-pro-mcp-server",
+  "version": "0.5.0",
+  "description": "MCP server exposing WeatherXM PRO APIs",
+  "main": "dist/index.js",
+  "bin": {
+    "weatherxm-pro-mcp-server": "dist/index.js"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.2",
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "openapi-backend": "^5.12.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.2.5",
+    "jest": "^29.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
