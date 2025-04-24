@@ -153,12 +153,17 @@ Add the following configuration under the `mcpServers` object:
 
 Replace `"path to mcp"` with the actual path to the MCP server or package name, and `"your-key"` with your API key.
 
-## Notes
+## Contributing
 
-- Keep your API key secure and do not commit it to version control.
-- The server communicates over stdio and should be launched by the MCP client.
-- The MCP server handles errors gracefully and returns appropriate MCP error codes.
+Contributions are welcome! If you would like to contribute to this project, please follow these guidelines:
 
+- Report bugs or request features by opening an issue.
+- Fork the repository and create your feature branch from `main`.
+- Write clear, concise commit messages.
+- Ensure your code follows the existing style and includes tests where applicable.
+- Submit a pull request with a detailed description of your changes.
+
+Thank you for helping improve this project!
 ## License
 
 MIT License
