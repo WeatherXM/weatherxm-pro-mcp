@@ -1,10 +1,8 @@
 # WeatherXM PRO MCP Server
 
-This MCP server exposes the WeatherXM PRO APIs as MCP tools, allowing clients to access weather station data, observations, and forecasts through the MCP protocol.
+An MCP server implementation exposing the WeatherXM PRO APIs as MCP tools, allowing clients to access weather station data, observations, and forecasts through the MCP protocol.
 
-## Overview
-
-The server provides access to various WeatherXM PRO API endpoints as MCP tools, including:
+## Features
 
 - Get stations near a location (latitude, longitude, radius)
 - Get stations within a bounding box (min/max latitude and longitude)
@@ -15,155 +13,114 @@ The server provides access to various WeatherXM PRO API endpoints as MCP tools, 
 - Get stations in a specific H3 cell
 - Get weather forecast (daily or hourly) for a specific H3 cell
 
-## MCP Tools
+## Prerequisites
 
-### get_stations_near
+- Node.js and npm installed
+- A valid WeatherXM PRO API key
 
-Get stations within a radius from a location.
+## Configuration
 
-**Input:**
+Clone the repository to your local machine.
 
-- `lat` (number): Latitude of the center of the area
-- `lon` (number): Longitude of the center of the area
-- `radius` (number): Radius in meters
-
-### get_stations_bounds
-
-Get stations within a bounding box.
-
-**Input:**
-
-- `min_lat` (number): Minimum latitude of the bounding box
-- `min_lon` (number): Minimum longitude of the bounding box
-- `max_lat` (number): Maximum latitude of the bounding box
-- `max_lon` (number): Maximum longitude of the bounding box
-
-### get_all_stations
-
-Get all available stations.
-
-**Input:** None
-
-### get_latest_observation
-
-Get the latest weather observation for a specific station.
-
-**Input:**
-
-- `station_id` (string): Unique identifier of the station
-
-### get_historical_observations
-
-Get historical weather observations for a station on a specific date.
-
-**Input:**
-
-- `station_id` (string): Unique identifier of the station
-- `date` (string): Date in YYYY-MM-DD format
-
-### search_cells_in_region
-
-Search for H3 cells by region name.
-
-**Input:**
-
-- `region_query` (string): Name of the region to search for cells
-
-### get_stations_in_cell
-
-Get all stations in a specific H3 cell.
-
-**Input:**
-
-- `cell_index` (string): H3 index of the cell
-
-### get_forecast_for_cell
-
-Get weather forecast for a specific H3 cell.
-
-**Input:**
-
-- `forecast_cell_index` (string): H3 index of the cell
-- `forecast_from` (string): Start date (YYYY-MM-DD)
-- `forecast_to` (string): End date (YYYY-MM-DD)
-- `forecast_include` (string): "daily" or "hourly"
+```bash
+git clone https://github.com/WeatherXM/weatherxm-pro-mcp.git
+```
 
 ## Installation
 
-1. Clone or download this repository.
-
-2. Install dependencies:
+After cloning the repository, you need to install the dependencies and build the project before running the MCP server.
 
 ```bash
 npm install
-```
-
-3. Build the project:
-
-```bash
 npm run build
 ```
 
-4. Set the `WEATHERXMPRO_API_KEY` environment variable with your WeatherXM PRO API key.
+## Server Configuration for MCP Clients
 
-## Usage
-
-Run the MCP server:
-
-```bash
-npm start
-```
-
-### MCP Client Configuration Examples
-
-Add the following configuration to your MCP client settings to connect to the WeatherXM PRO MCP server.
-
-#### Claude Desktop
-
-Edit the MCP settings file located at:
-
-```
-~/Library/Application Support/Claude/claude_desktop_config.json
-```
-
-Add the WeatherXM PRO MCP server configuration under the `mcpServers` object.
-
-#### VSCode, Cline, and ROO Code
-
-Edit the MCP settings file located at:
-
-```
-~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json
-```
-
-Add the following configuration under the `mcpServers` object:
+This is the common configuration for MCP clients such as Claude Desktop, Cursor, Windsurf Editor, VSCode and plugins such as RooCode and Cline.
 
 ```json
-"weatherxm-pro": {
-  "command": "npx",
-  "args": [
-    "-y",
-    "path to mcp"
-  ],
-  "env": {
-    "WEATHERXMPRO_API_KEY": "your-key"
+{
+  "mcpServers": {
+    "weatherxm-pro": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "path to mcp"
+      ],
+      "env": {
+        "WEATHERXMPRO_API_KEY": "your-api-key"
+      }
+    }
   }
 }
 ```
 
-Replace `"path to mcp"` with the actual path to the MCP server or package name, and `"your-key"` with your API key.
+Replace `"path to mcp"` with the actual path to the MCP server or package name, and `"your-api-key"` with your WeatherXM PRO API key.
+> Note: If you have other MCP servers in use in the client, you can add it to the existing `mcpServers` object.
 
-## Contributing
+## Claude Desktop
 
-Contributions are welcome! If you would like to contribute to this project, please follow these guidelines:
+Follow the steps below to use the WeatherXM PRO MCP server with Claude Desktop MCP client:
 
-- Report bugs or request features by opening an issue.
-- Fork the repository and create your feature branch from `main`.
-- Write clear, concise commit messages.
-- Ensure your code follows the existing style and includes tests where applicable.
-- Submit a pull request with a detailed description of your changes.
+1. Edit the MCP settings file located at:
 
-Thank you for helping improve this project!
+   ```
+   ~/Library/Application Support/Claude/claude_desktop_config.json
+   ```
+
+2. Add the WeatherXM PRO MCP server configuration under the `mcpServers` object.
+3. Restart Claude Desktop to apply the changes.
+4. You can now use the server in Claude Desktop to run queries on the WeatherXM PRO MCP server.
+
+## Cursor
+
+Follow the steps below to use the WeatherXM PRO MCP server with Cursor:
+
+1. Install [Cursor](https://cursor.sh/) on your machine.
+2. In Cursor, go to Cursor > Cursor Settings > MCP > Add a new global MCP server.
+3. Specify the same configuration as in the Server Configuration for MCP Clients section.
+4. Save the configuration.
+5. You will see weatherxm-pro as an added server in MCP servers list.
+6. You can now use the WeatherXM PRO MCP server in Cursor to run queries.
+
+## Windsurf Editor
+
+Follow the steps below to use the WeatherXM PRO MCP server with [Windsurf Editor](https://windsurf.com/):
+
+1. Install Windsurf Editor on your machine.
+2. Navigate to Command Palette > Windsurf MCP Configuration Panel or Windsurf - Settings > Advanced > Cascade > Model Context Protocol (MCP) Servers.
+3. Click on Add Server and then Add custom server.
+4. Add the WeatherXM PRO MCP Server configuration from the Server Configuration for MCP Clients section.
+5. Save the configuration.
+6. You will see weatherxm-pro as an added server in MCP Servers list.
+7. You can now use the WeatherXM PRO MCP server in Windsurf Editor to run queries.
+
+## Docker Image
+
+The MCP server can be built and run as a Docker container.
+
+### Build
+
+```bash
+docker build -t weatherxm-pro-mcp .
+```
+
+### Run
+
+```bash
+docker run -d -p 3000:3000 -e WEATHERXMPRO_API_KEY="your-api-key" -e PORT=3000 weatherxm-pro-mcp
+```
+
+Replace `"your-api-key"` with your actual WeatherXM PRO API key.
+
+## Troubleshooting Tips
+
+- Ensure the path to your MCP server repository is correct in the configuration.
+- Verify that your WeatherXM PRO API key is set correctly.
+- Check that the MCP client configuration matches the server settings.
+- Check the logs for any errors or warnings that may indicate issues with the MCP server.
+
 ## License
 
 MIT License

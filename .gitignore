@@ -44,3 +44,5 @@ coverage/
 
 # Misc
 *.log
+# Ignore roomodes file
+.roomodes
