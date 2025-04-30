@@ -12,6 +12,9 @@ An MCP server implementation exposing the WeatherXM PRO APIs as MCP tools, allow
 - Search for H3 cells by region name
 - Get stations in a specific H3 cell
 - Get weather forecast (daily or hourly) for a specific H3 cell
+- Get hyperlocal forecast for a station and variable
+- Get forecast performance (FACT) for a station and variable
+- Get forecast ranking (FACT) for a station
 
 ## Prerequisites
 

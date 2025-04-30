@@ -241,6 +241,100 @@ server.tool(
   }
 );
 
+
+// Add MCP tool for getHyperlocalForecast
+server.tool(
+  "get_hyperlocal_forecast",
+  {
+    station_id: z.string().describe("The station to get the forecast for."),
+    variable: z.string().describe("The weather variable to get the forecast for."),
+    timezone: z.string().optional().describe("The timezone to get forecast for. Defaults to station location timezone."),
+  },
+  async ({ station_id, variable, timezone }) => {
+    const allowedVariables = ["temperature", "humidity", "precipitation", "windSpeed", "windDirection"];
+    if (!allowedVariables.includes(variable)) {
+      return {
+        content: [{ type: "text", text: `Invalid variable provided: ${variable}. Allowed variables are: ${allowedVariables.join(", ")}` }],
+        isError: true,
+      };
+    }
+    try {
+      const response = await axiosInstance.get(`/stations/${station_id}/hyperlocal`, {
+        params: { variable, timezone },
+      });
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
+      };
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        return {
+          content: [{ type: "text", text: `WeatherXM API error: ${error.response?.data.message ?? error.message}` }],
+          isError: true,
+        };
+      }
+      throw error;
+    }
+  }
+);
+
+// Add MCP tool for getFactPerformance
+server.tool(
+  "get_fact_performance",
+  {
+    station_id: z.string().describe("The station to get the forecast performance for."),
+    variable: z.string().describe("The weather variable to get the forecast for."),
+  },
+  async ({ station_id, variable }) => {
+    const allowedVariables = ["temperature", "humidity", "precipitation", "windSpeed", "windDirection"];
+    if (!allowedVariables.includes(variable)) {
+      return {
+        content: [{ type: "text", text: `Invalid variable provided: ${variable}. Allowed variables are: ${allowedVariables.join(", ")}` }],
+        isError: true,
+      };
+    }
+    try {
+      const response = await axiosInstance.get(`/stations/${station_id}/fact/performance`, {
+        params: { variable },
+      });
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
+      };
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        return {
+          content: [{ type: "text", text: `WeatherXM API error: ${error.response?.data.message ?? error.message}` }],
+          isError: true,
+        };
+      }
+      throw error;
+    }
+  }
+);
+
+// Add MCP tool for getFactRanking
+server.tool(
+  "get_fact_ranking",
+  {
+    station_id: z.string().describe("The station to get the forecast ranking for."),
+  },
+  async ({ station_id }) => {
+    try {
+      const response = await axiosInstance.get(`/stations/${station_id}/fact/ranking`);
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
+      };
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        return {
+          content: [{ type: "text", text: `WeatherXM API error: ${error.response?.data.message ?? error.message}` }],
+          isError: true,
+        };
+      }
+      throw error;
+    }
+  }
+);
+
 // Start the server
 async function run() {
   const transport = new StdioServerTransport();
