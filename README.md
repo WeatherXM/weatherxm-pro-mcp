@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/weatherxm-weatherxm-pro-mcp-badge.png)](https://mseep.ai/app/weatherxm-weatherxm-pro-mcp)
+
 # WeatherXM PRO MCP Server
 
 An MCP server implementation exposing the WeatherXM PRO APIs as MCP tools, allowing clients to access weather station data, observations, and forecasts through the MCP protocol.
